@@ -2,9 +2,11 @@
 
 # Spec-Driven Develop
 
-A cross-platform AI agent skill that automates the pre-development workflow for large-scale complex tasks.
+**One Markdown file. Zero dependencies. Full pre-development automation.**
 
-When you tell your AI agent something like "rewrite this project in Rust" or "migrate to a microservice architecture", the agent automatically executes a standardized preparation pipeline before any code is written:
+Spec-Driven Develop is a cross-platform AI agent skill that automates the pre-development workflow for large-scale complex tasks. It is not a framework, not a runtime, not a package manager — it is a single `SKILL.md` file that teaches your AI agent a structured methodology.
+
+When you tell your agent something like "rewrite this project in Rust" or "migrate to a microservice architecture", it automatically kicks off a standardized preparation pipeline before writing a single line of code:
 
 1. Deep project analysis
 2. Task decomposition and planning
@@ -12,7 +14,30 @@ When you tell your AI agent something like "rewrite this project in Rust" or "mi
 4. Task-specific sub-SKILL generation
 5. Iterative development with document-driven progress awareness
 
-The entire workflow is document-driven: a master progress file serves as the agent's "memory anchor" across conversations, so it never loses track of where things stand.
+A master progress file (`docs/progress/MASTER.md`) serves as the agent's "memory anchor" across conversations, so it never loses track of where things stand — no matter how many sessions it takes.
+
+## Why Not Superpowers / oh-my-claude / ...?
+
+The Claude Code ecosystem now has full-blown frameworks with dozens of agents, multi-phase pipelines, and opinionated workflows. They're powerful — but they're also heavy.
+
+| | Spec-Driven Develop | Superpowers | oh-my-claudecode |
+|---|---|---|---|
+| **What it is** | A single SKILL file | Full skills framework + methodology | Multi-agent orchestration system |
+| **Core files** | 1 Markdown file (~200 lines) | Plugin with multiple skills, agents, hooks | Plugin with 32+ specialized agents |
+| **Dependencies** | None | Requires Claude Code plugin system | Requires Claude Code plugin system |
+| **Methodology** | Document-driven planning | Enforced TDD (RED-GREEN-REFACTOR) | Team-based multi-agent delegation |
+| **Cross-platform** | Claude Code, Codex, Cursor | Claude Code (primary) | Claude Code only |
+| **Philosophy** | Do one thing, do it well | Complete development methodology | Parallel multi-agent orchestration |
+
+Spec-Driven Develop takes a fundamentally different approach: instead of wrapping your agent in a framework, it gives the agent a methodology through a plain Markdown file. No hooks, no runtime overhead, no forced workflows. You keep full control.
+
+**Lightweight does not mean weak.** A well-structured Markdown file can carry a surprisingly sophisticated workflow — project analysis, phased task decomposition, progress tracking, sub-SKILL generation — all without a single line of executable code. The agent reads the instructions and executes them. That's it. The simplicity *is* the feature.
+
+This makes it especially suited for:
+
+- **Teams that already have their own workflow** and just need structured planning for big tasks
+- **Multi-platform users** who work across Claude Code, Codex, and Cursor
+- **Developers who want control**, not a black-box pipeline deciding how they should code
 
 ## Supported Platforms
 
@@ -23,8 +48,6 @@ The entire workflow is document-driven: a master progress file serves as the age
 ## Installation
 
 ### Claude Code
-
-Add the marketplace and install the plugin:
 
 ```
 /plugin marketplace add zhu1090093659/spec_driven_develop
@@ -77,7 +100,7 @@ Simply describe your large-scale task to the agent. The skill triggers on keywor
 
 ### Cross-Conversation Continuity
 
-When working on a long-running task across multiple conversations, the agent reads `docs/progress/MASTER.md` at the start of each new conversation to restore context and continue from where it left off.
+When working on a long-running task across multiple conversations, the agent reads `docs/progress/MASTER.md` at the start of each new session to restore context and continue from where it left off.
 
 ### Cleanup
 
@@ -112,7 +135,6 @@ spec_driven_develop/
     <img src="https://api.star-history.com/svg?repos=zhu1090093659/spec_driven_develop&type=Date" alt="Star History" width="600">
   </a>
 </p>
-
 
 ## License
 

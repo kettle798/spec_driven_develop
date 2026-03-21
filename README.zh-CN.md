@@ -2,9 +2,11 @@
 
 # Spec-Driven Develop
 
-一个跨平台的 AI Agent 技能，专门为大规模复杂任务自动化"开发前准备"流程。
+**一个 Markdown 文件，零依赖，完整的开发前自动化流程。**
 
-当你对 AI Agent 说出类似"把这个项目用 Rust 重写"或者"迁移到微服务架构"这样的话时，Agent 会在动手写代码之前，自动执行一套标准化的准备流水线：
+Spec-Driven Develop 是一个跨平台的 AI Agent 技能，专门为大规模复杂任务自动化"开发前准备"流程。它不是框架，不是运行时，不是包管理器——它就是一个 `SKILL.md` 文件，教会你的 AI Agent 一套结构化的工作方法论。
+
+当你对 Agent 说出"把这个项目用 Rust 重写"或者"迁移到微服务架构"这样的话时，它会在动手写代码之前，自动执行一套标准化的准备流水线：
 
 1. 深度项目分析
 2. 任务分解与规划
@@ -12,7 +14,30 @@
 4. 针对每个子任务生成专属 sub-SKILL
 5. 以文档驱动的方式进行迭代开发，全程保持进度感知
 
-整个工作流以文档为驱动核心：一个主进度文件充当 Agent 跨对话的"记忆锚点"，让它不管对话切换多少次，都不会丢失当前进展。
+一个主进度文件（`docs/progress/MASTER.md`）充当 Agent 跨对话的"记忆锚点"，不管对话切换多少次，都不会丢失当前进展。
+
+## 为什么不用 Superpowers / oh-my-claude / ...？
+
+Claude Code 生态里现在已经有了不少重量级选手：几十个 Agent 的编排系统、多阶段流水线、强制性的开发方法论。它们很强大——但也很重。
+
+| | Spec-Driven Develop | Superpowers | oh-my-claudecode |
+|---|---|---|---|
+| **本质** | 一个 SKILL 文件 | 完整的技能框架 + 方法论 | 多 Agent 编排系统 |
+| **核心体积** | 1 个 Markdown 文件（约 200 行） | 插件 + 多个 Skill、Agent、Hook | 插件 + 32 个以上专用 Agent |
+| **外部依赖** | 无 | 依赖 Claude Code 插件系统 | 依赖 Claude Code 插件系统 |
+| **方法论** | 文档驱动的规划 | 强制 TDD（RED-GREEN-REFACTOR） | Team 模式多 Agent 委派 |
+| **跨平台** | Claude Code、Codex、Cursor | Claude Code（主要） | 仅 Claude Code |
+| **设计哲学** | 只做一件事，做到极致 | 完整的软件开发方法论 | 并行多 Agent 编排 |
+
+Spec-Driven Develop 走了一条截然不同的路：它不是用框架把你的 Agent 包裹起来，而是通过一个纯 Markdown 文件交给 Agent 一套方法论。没有 Hook，没有运行时开销，没有强制工作流。你始终保有完全的控制权。
+
+**轻量不等于简陋。** 一个结构良好的 Markdown 文件，能承载出乎意料的复杂工作流——项目分析、分阶段任务分解、进度追踪、子 SKILL 生成——全部不需要一行可执行代码。Agent 读取指令，然后执行。就这么简单。这种简单本身就是最大的特性。
+
+这让它特别适合以下场景：
+
+- **已有成熟工作流的团队**，只是在大型任务前需要一个结构化的规划环节
+- **多平台用户**，需要在 Claude Code、Codex、Cursor 之间无缝切换
+- **想要掌控感的开发者**，而不是被一个黑盒流水线决定该怎么写代码
 
 ## 支持平台
 
@@ -23,8 +48,6 @@
 ## 安装
 
 ### Claude Code
-
-添加 Marketplace 并安装插件：
 
 ```
 /plugin marketplace add zhu1090093659/spec_driven_develop
