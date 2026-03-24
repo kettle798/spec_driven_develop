@@ -3,9 +3,34 @@ set -euo pipefail
 
 SKILL_NAME="spec-driven-develop"
 REPO_URL="https://github.com/zhu1090093659/spec_driven_develop"
+RAW_URL="https://raw.githubusercontent.com/zhu1090093659/spec_driven_develop/main"
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 TARGET_DIR="$CODEX_HOME/skills/$SKILL_NAME"
 SKILL_SUBPATH="plugins/spec-driven-develop/skills/$SKILL_NAME"
+
+# Extract version from SKILL.md frontmatter
+extract_version() {
+    grep -m1 '^version:' "$1" 2>/dev/null | sed 's/version:[[:space:]]*//'
+}
+
+# Get the version currently installed
+get_local_version() {
+    local skill_file="$TARGET_DIR/SKILL.md"
+    if [ -f "$skill_file" ]; then
+        extract_version "$skill_file"
+    fi
+}
+
+# Get the version from the source that will be used for installation
+get_source_version() {
+    local local_skill
+    local_skill="$(dirname "$0")/../$SKILL_SUBPATH/SKILL.md"
+    if [ -f "$local_skill" ] 2>/dev/null; then
+        extract_version "$local_skill"
+    else
+        curl -sL "$RAW_URL/$SKILL_SUBPATH/SKILL.md" | grep -m1 '^version:' | sed 's/version:[[:space:]]*//'
+    fi
+}
 
 install_from_local() {
     local source_dir
@@ -33,24 +58,40 @@ install_from_remote() {
     cp -r "$tmp_dir/repo/$SKILL_SUBPATH" "$TARGET_DIR"
 }
 
+do_install() {
+    mkdir -p "$(dirname "$TARGET_DIR")"
+    if [ -f "$(dirname "$0")/../$SKILL_SUBPATH/SKILL.md" ] 2>/dev/null; then
+        install_from_local
+    else
+        install_from_remote
+    fi
+}
+
+# --- Main ---
+
 if [ -d "$TARGET_DIR" ]; then
-    echo "Skill '$SKILL_NAME' already exists at $TARGET_DIR"
-    read -p "Overwrite? [y/N] " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "Aborted."
+    local_version=$(get_local_version)
+    source_version=$(get_source_version)
+
+    if [ -z "$source_version" ]; then
+        echo "Warning: could not determine source version."
+        read -p "Re-install '$SKILL_NAME' (local: v${local_version:-unknown})? [y/N] " -n 1 -r
+        echo
+        [[ $REPLY =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
+    elif [ "$local_version" = "$source_version" ]; then
+        echo "'$SKILL_NAME' is already up to date (v$local_version)."
         exit 0
+    else
+        echo "Update available: v${local_version:-unknown} -> v$source_version"
+        read -p "Update? [y/N] " -n 1 -r
+        echo
+        [[ $REPLY =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
     fi
     rm -rf "$TARGET_DIR"
 fi
 
-mkdir -p "$(dirname "$TARGET_DIR")"
+do_install
 
-if [ -f "$(dirname "$0")/../$SKILL_SUBPATH/SKILL.md" ] 2>/dev/null; then
-    install_from_local
-else
-    install_from_remote
-fi
-
-echo "Installed '$SKILL_NAME' to $TARGET_DIR"
+installed_version=$(get_local_version)
+echo "Installed '$SKILL_NAME' v${installed_version:-unknown} to $TARGET_DIR"
 echo "Restart Codex to activate the skill."

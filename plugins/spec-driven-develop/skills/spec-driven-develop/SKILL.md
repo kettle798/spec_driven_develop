@@ -8,7 +8,7 @@ description: >-
   "迁移", "重构", "大规模", "规范驱动". Performs full project analysis, task decomposition,
   documentation generation, progress tracking setup, and task-specific sub-SKILL creation
   before any development begins.
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Spec-Driven Develop
