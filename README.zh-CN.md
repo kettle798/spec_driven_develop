@@ -149,23 +149,47 @@ python scripts/export-progress.py docs/progress/
 
 当主进度文件中的所有任务都标记为完成后，Agent 会进入归档模式：它会把所有工作产出物（分析文档、计划文档、进度记录，以及子 SKILL 的副本）移动到 `docs/archives/<项目名>/` 目录下，并更新 `docs/archives/README.md` 索引文件。不会删除任何东西，全部保留以便后续溯源。
 
+## 架构哲学：S.U.P.E.R
+
+这个 Skill 本身，以及它指导 Agent 产出的所有代码，都遵循 **S.U.P.E.R** 设计哲学：
+
+| 原则 | 含义 | 实践体现 |
+|:-----|:-----|:---------|
+| **S**ingle Purpose | 一个模块，一个职责 | 每个 reference 文件、模板、Agent 只处理一个关注点 |
+| **U**nidirectional Flow | 数据单向流动 | Phase 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6，无反向依赖 |
+| **P**orts over Implementation | 先定契约再写实现 | 模板作为阶段和 Agent 之间的端口定义 |
+| **E**nvironment-Agnostic | 到哪都能跑 | 纯 Markdown，不锁平台，自动优雅降级 |
+| **R**eplaceable Parts | 换件不波及全局 | 改一个模板、一个协议或一个 Agent，不用动其余部分 |
+
+完整的哲学文档以 `references/super-philosophy.md` 的形式打包在 Skill 中，并会自动嵌入到每个生成的子 SKILL 里，让开发阶段的 Agent 在写代码时也自觉遵循这套原则。
+
 ## 项目结构
 
 ```
 spec_driven_develop/
-├── plugins/spec-driven-develop/           # 独立的 Claude Code 插件
+├── plugins/spec-driven-develop/              # 独立的 Claude Code 插件
 │   ├── skills/spec-driven-develop/
-│   │   ├── SKILL.md                       # 核心——全平台通用
-│   │   └── references/doc-templates.md    # 文档模板
-│   ├── agents/                            # Claude Code 子 Agent（可选增强）
+│   │   ├── SKILL.md                          # 核心——全平台通用
+│   │   └── references/
+│   │       ├── super-philosophy.md           # S.U.P.E.R 架构原则
+│   │       ├── parallel-protocol.md          # 并行执行协议
+│   │       ├── behavioral-rules.md           # 不可违反的工作流规则
+│   │       └── templates/                    # 文档模板（按关注点拆分）
+│   │           ├── analysis.md
+│   │           ├── plan.md
+│   │           ├── progress.md
+│   │           ├── archive.md
+│   │           └── sub-skill.md
+│   ├── agents/                               # Claude Code 子 Agent（可选增强）
 │   │   ├── project-analyzer.md
-│   │   └── task-architect.md
-│   └── commands/spec-dev.md               # /spec-dev 斜杠命令（Claude Code）
-├── scripts/                               # 安装与工具脚本
+│   │   ├── task-architect.md
+│   │   └── task-executor.md
+│   └── commands/spec-dev.md                  # /spec-dev 斜杠命令（Claude Code）
+├── scripts/                                  # 安装与工具脚本
 │   ├── install-cursor.sh
 │   ├── install-codex.sh
 │   ├── install-all.sh
-│   └── export-progress.py                 # 进度导出为 JSON
+│   └── export-progress.py                    # 进度导出为 JSON
 └── LICENSE
 ```
 

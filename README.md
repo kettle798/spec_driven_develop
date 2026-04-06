@@ -149,23 +149,47 @@ The output includes project metadata, per-phase task details, and an overall com
 
 When all tasks are marked complete in the master progress file, the agent enters archive mode: it moves all workflow artifacts (analysis, plan, progress, and a copy of the sub-SKILL) into `docs/archives/<project-name>/` and updates an index at `docs/archives/README.md`. Nothing is deleted — everything is preserved for future traceability.
 
+## Architecture: S.U.P.E.R Philosophy
+
+The skill itself — and all code it guides agents to produce — follows the **S.U.P.E.R** design philosophy:
+
+| Principle | Meaning | In Practice |
+|:----------|:--------|:------------|
+| **S**ingle Purpose | One module, one job | Each reference file, template, and agent handles exactly one concern |
+| **U**nidirectional Flow | Data flows one way | Phase 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6, no reverse dependencies |
+| **P**orts over Implementation | Define contracts first | Templates serve as port definitions between phases and agents |
+| **E**nvironment-Agnostic | Run anywhere | Pure Markdown, no platform lock-in, graceful degradation |
+| **R**eplaceable Parts | Swap without ripple | Change one template, one protocol, or one agent without touching the rest |
+
+The full philosophy is bundled as `references/super-philosophy.md` and automatically embedded into every generated sub-SKILL, so development agents follow these principles when writing code.
+
 ## Project Structure
 
 ```
 spec_driven_develop/
-├── plugins/spec-driven-develop/           # Self-contained Claude Code plugin
+├── plugins/spec-driven-develop/              # Self-contained Claude Code plugin
 │   ├── skills/spec-driven-develop/
-│   │   ├── SKILL.md                       # The core — works on ANY platform
-│   │   └── references/doc-templates.md    # Document templates
-│   ├── agents/                            # Claude Code sub-agents (optional)
+│   │   ├── SKILL.md                          # The core — works on ANY platform
+│   │   └── references/
+│   │       ├── super-philosophy.md           # S.U.P.E.R architecture principles
+│   │       ├── parallel-protocol.md          # Parallel execution protocol
+│   │       ├── behavioral-rules.md           # Non-negotiable workflow rules
+│   │       └── templates/                    # Document templates (one per concern)
+│   │           ├── analysis.md
+│   │           ├── plan.md
+│   │           ├── progress.md
+│   │           ├── archive.md
+│   │           └── sub-skill.md
+│   ├── agents/                               # Claude Code sub-agents (optional)
 │   │   ├── project-analyzer.md
-│   │   └── task-architect.md
-│   └── commands/spec-dev.md               # /spec-dev slash command (Claude Code)
-├── scripts/                               # Installation & utility scripts
+│   │   ├── task-architect.md
+│   │   └── task-executor.md
+│   └── commands/spec-dev.md                  # /spec-dev slash command (Claude Code)
+├── scripts/                                  # Installation & utility scripts
 │   ├── install-cursor.sh
 │   ├── install-codex.sh
 │   ├── install-all.sh
-│   └── export-progress.py                 # Export progress to JSON
+│   └── export-progress.py                    # Export progress to JSON
 └── LICENSE
 ```
 

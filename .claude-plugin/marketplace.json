@@ -11,7 +11,7 @@
       "name": "spec-driven-develop",
       "source": "./plugins/spec-driven-develop",
       "description": "Automates pre-development workflow for large-scale complex tasks: project analysis, task decomposition, progress tracking, and sub-SKILL generation. Triggers on keywords like rewrite, migrate, overhaul, refactor, rebuild, or Chinese equivalents.",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "author": {
         "name": "zhu1090093659"
       },

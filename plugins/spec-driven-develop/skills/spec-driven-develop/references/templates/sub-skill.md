@@ -17,8 +17,9 @@ When generating a task-specific sub-SKILL in Phase 4, delegate to the platform's
 The generated sub-SKILL must include these sections:
 
 1. **Cross-conversation continuity protocol** — read `docs/progress/MASTER.md` first, always
-2. **Target technology coding standards** — conventions for the target language/framework
-3. **Progress update instructions** — how to update checkboxes and MASTER.md counts
-4. **Phase-specific development guidance** — architecture context and implementation notes
-5. **Parallel execution protocol** — reference `references/parallel-protocol.md` for the full protocol
-6. **Archive trigger** — when all tasks are done, initiate Phase 6 (Archive)
+2. **S.U.P.E.R architecture principles** — reference `references/super-philosophy.md` as the architectural coding standard; all code produced during development should follow Single Purpose, Unidirectional Flow, Ports over Implementation, Environment-Agnostic, and Replaceable Parts
+3. **Target technology coding standards** — conventions for the target language/framework
+4. **Progress update instructions** — how to update checkboxes and MASTER.md counts
+5. **Phase-specific development guidance** — architecture context and implementation notes
+6. **Parallel execution protocol** — reference `references/parallel-protocol.md` for the full protocol
+7. **Archive trigger** — when all tasks are done, initiate Phase 6 (Archive)

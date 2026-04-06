@@ -8,7 +8,7 @@ description: >-
   "迁移", "重构", "大规模", "规范驱动". Performs full project analysis, task decomposition,
   documentation generation, progress tracking setup, and task-specific sub-SKILL creation
   before any development begins.
-version: 1.4.0
+version: 1.5.0
 ---
 
 # Spec-Driven Develop
@@ -151,6 +151,7 @@ Use the templates in `references/templates/progress.md` for all progress documen
 1. The sub-SKILL is **always installed at project level** (e.g., `.cursor/skills/`, `.claude/commands/`, or project-local directory). Do not ask the user for installation location. This keeps the sub-SKILL co-located with the project it serves and avoids polluting the global skill space.
 
 2. Determine what the sub-SKILL should contain (see `references/templates/sub-skill.md` for the full content outline):
+   - **S.U.P.E.R architecture principles** from `references/super-philosophy.md` — the architectural coding standard for all generated code
    - Task-specific coding standards and conventions for the target technology
    - The cross-conversation continuity protocol (read MASTER.md first)
    - Project-specific architecture context and implementation notes
