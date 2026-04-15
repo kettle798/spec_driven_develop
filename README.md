@@ -8,8 +8,8 @@
 ## Table of Contents
 
 - [What It Does](#what-it-does)
+- [Deep Discuss — Structured Deep Discussion](#deep-discuss--structured-deep-discussion)
 - [S.U.P.E.R — The Architectural Backbone](#super--the-architectural-backbone)
-- [Why Not Superpowers / oh-my-claude / ...?](#why-not-superpowers--oh-my-claude--)
 - [Platform Compatibility](#platform-compatibility)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -21,7 +21,10 @@
 
 **A structured methodology for AI coding agents. Pure Markdown. Any platform. Architecture-first.**
 
-Spec-Driven Develop is a platform-agnostic AI agent skill that automates the full pre-development pipeline for large-scale complex tasks. It gives any coding agent a complete methodology — from deep project analysis to phased task decomposition, document-driven progress tracking, and task-specific sub-SKILL generation — all before a single line of implementation code is written.
+Spec-Driven Develop is a platform-agnostic AI agent plugin that ships two complementary skills:
+
+- **Spec-Driven Develop** — automates the full pre-development pipeline for large-scale complex tasks: deep project analysis, phased task decomposition, document-driven progress tracking, and task-specific sub-SKILL generation — all before a single line of implementation code is written.
+- **Deep Discuss** — a structured deep-discussion workflow for problem analysis, brainstorming, and solution design through disciplined multi-phase thinking.
 
 No SDK. No runtime. No dependencies. Just Markdown files that any AI coding agent can read and execute.
 
@@ -55,6 +58,30 @@ Phase 7  Archive                   Preserve all artifacts for traceability
 ```
 
 A master progress file (`docs/progress/MASTER.md`) serves as the agent's memory anchor across conversations. No matter how many sessions a task spans, the agent always knows where things stand.
+
+## Deep Discuss — Structured Deep Discussion
+
+When you describe a problem, a technical puzzle, or say things like "let's discuss", "help me analyze", "I'm stuck on a decision" — Deep Discuss kicks in with a 7-phase structured discussion:
+
+```
+Phase 1  Receive Information        Listen, restate, confirm understanding
+    |
+Phase 2  Problem Audit              Validate the problem, check info sufficiency,
+    |                              surface hidden issues (Critical Thinking)
+    |
+Phase 3  Deep Analysis              Multi-angle root cause analysis
+    |                              with explicit confidence levels
+    |
+Phase 4  Solution Design            2-3 options with trade-offs and recommendations
+    |
+Phase 5  Self-Review                Proactive first review of proposed solutions
+    |
+Phase 6  Final Review               Completeness check, risk mitigation, verification plan
+    |
+Phase 7  Execution (optional)       Only when user explicitly says "go"
+```
+
+The core philosophy: **don't rush to answers — think the problem through first.** Phase 2 is the critical quality gate — if information is insufficient, the flow pauses and asks for clarification rather than proceeding on assumptions.
 
 ## S.U.P.E.R — The Architectural Backbone
 
@@ -93,28 +120,6 @@ S.U.P.E.R isn't just a reference document the agent might read — it's woven in
   | All tests pass after the change | — |
 
   **All pass = proceed. 1-2 fail = fix before marking complete. 3+ fail = stop and refactor.**
-
-## Why Not Superpowers / oh-my-claude / ...?
-
-The Claude Code ecosystem has full-blown frameworks with dozens of agents and opinionated workflows. They're powerful — but they're also heavy, and they lock you into a single platform.
-
-| | Spec-Driven Develop | Superpowers | oh-my-claudecode |
-|---|---|---|---|
-| **What it is** | Methodology system (Markdown files) | Full skills framework + methodology | Multi-agent orchestration system |
-| **Core footprint** | 1 SKILL + 5 templates + 3 reference docs | Plugin with multiple skills, agents, hooks | Plugin with 32+ specialized agents |
-| **Dependencies** | None — pure Markdown | Requires Claude Code plugin system | Requires Claude Code plugin system |
-| **Architecture philosophy** | S.U.P.E.R (enforced in every phase) | Enforced TDD (RED-GREEN-REFACTOR) | Team-based multi-agent delegation |
-| **Cross-platform** | Any agent that reads Markdown | Claude Code (primary) | Claude Code only |
-| **Code quality enforcement** | S.U.P.E.R code review checklist per task | TDD cycle enforcement | Agent-specific quality checks |
-| **Philosophy** | Architecture-first, document-driven | Complete development methodology | Parallel multi-agent orchestration |
-
-Spec-Driven Develop sits in the middle ground: more structured than a single prompt file, but still zero-dependency and platform-agnostic. It doesn't wrap your agent in a framework — it gives the agent a methodology through plain Markdown. You keep full control.
-
-This makes it especially suited for:
-
-- **Teams that already have their own workflow** and need structured planning for big tasks
-- **Multi-platform users** who work across Claude Code, Cursor, Codex, and others
-- **Architecture-conscious developers** who want S.U.P.E.R principles enforced from day one, not bolted on later
 
 ## Platform Compatibility
 
@@ -191,15 +196,21 @@ If your agent doesn't have a formal "skills" directory, you can paste the conten
 
 ### Automatic Trigger
 
-Simply describe your large-scale task to the agent. The skill triggers on keywords like:
+Simply describe your task to the agent. Each skill triggers on different keywords:
 
+**Spec-Driven Develop** — large-scale transformation tasks:
 - English: "rewrite", "migrate", "overhaul", "refactor entire project", "transform", "rebuild in [language]"
 - Chinese: "改造", "重写", "迁移", "重构", "大规模"
+
+**Deep Discuss** — problem analysis and brainstorming:
+- English: "let's discuss", "help me analyze", "I have a problem", "what do you think", "I'm torn between"
+- Chinese: "讨论一下", "帮我分析", "我遇到一个问题", "你觉得怎么样", "帮我想想", "我在纠结"
 
 ### Manual Trigger (Claude Code)
 
 ```
 /spec-dev rewrite this Python project in Rust
+/dp Our API response times have been spiking recently
 ```
 
 ### Cross-Conversation Continuity
@@ -227,23 +238,28 @@ When all tasks are marked complete, the agent archives all workflow artifacts (a
 ```
 spec_driven_develop/
 ├── plugins/spec-driven-develop/              # Self-contained Claude Code plugin
-│   ├── skills/spec-driven-develop/
-│   │   ├── SKILL.md                          # Core workflow — works on ANY platform
-│   │   └── references/
-│   │       ├── super-philosophy.md           # S.U.P.E.R architecture principles
-│   │       ├── parallel-protocol.md          # Parallel execution protocol
-│   │       ├── behavioral-rules.md           # Non-negotiable workflow rules
-│   │       └── templates/                    # Document templates (one per concern)
-│   │           ├── analysis.md               # Phase 1: with S.U.P.E.R health assessment
-│   │           ├── plan.md                   # Phase 3: with S.U.P.E.R design constraints
-│   │           ├── progress.md               # Phase 4: cross-conversation tracking
-│   │           ├── archive.md                # Phase 7: artifact preservation
-│   │           └── sub-skill.md              # Phase 5: with inlined S.U.P.E.R + checklist
+│   ├── skills/
+│   │   ├── spec-driven-develop/
+│   │   │   ├── SKILL.md                      # Core workflow — works on ANY platform
+│   │   │   └── references/
+│   │   │       ├── super-philosophy.md       # S.U.P.E.R architecture principles
+│   │   │       ├── parallel-protocol.md      # Parallel execution protocol
+│   │   │       ├── behavioral-rules.md       # Non-negotiable workflow rules
+│   │   │       └── templates/                # Document templates (one per concern)
+│   │   │           ├── analysis.md           # Phase 1: with S.U.P.E.R health assessment
+│   │   │           ├── plan.md               # Phase 3: with S.U.P.E.R design constraints
+│   │   │           ├── progress.md           # Phase 4: cross-conversation tracking
+│   │   │           ├── archive.md            # Phase 7: artifact preservation
+│   │   │           └── sub-skill.md          # Phase 5: with inlined S.U.P.E.R + checklist
+│   │   └── deep-discuss/
+│   │       └── SKILL.md                      # Structured deep discussion workflow
 │   ├── agents/                               # Claude Code sub-agents (optional)
 │   │   ├── project-analyzer.md
 │   │   ├── task-architect.md
 │   │   └── task-executor.md
-│   └── commands/spec-dev.md                  # /spec-dev slash command (Claude Code)
+│   └── commands/                             # Slash commands (Claude Code)
+│       ├── spec-dev.md                       # /spec-dev — launch spec-driven workflow
+│       └── dp.md                             # /dp — launch deep discussion
 ├── scripts/                                  # Installation & utility scripts
 │   ├── install-cursor.sh
 │   ├── install-codex.sh
@@ -252,7 +268,7 @@ spec_driven_develop/
 └── LICENSE
 ```
 
-The essential files for cross-platform use are `SKILL.md` and the `references/` directory. Everything else — agents, commands, plugin manifests — is platform-specific enhancement for Claude Code.
+The essential files for cross-platform use are the `SKILL.md` files and the `references/` directory. Everything else — agents, commands, plugin manifests — is platform-specific enhancement for Claude Code.
 
 ## Star History
 
