@@ -146,11 +146,24 @@ After installation, run `/reload-plugins` to activate.
 
 ### Codex CLI
 
-This repository now includes Codex plugin metadata at `.agents/plugins/marketplace.json` and `plugins/spec-driven-develop/.codex-plugin/plugin.json`. If your Codex client supports repo-local plugin marketplaces, enable the `spec-driven-develop` plugin from this repository.
+This repository includes Codex plugin metadata at `.agents/plugins/marketplace.json` and `plugins/spec-driven-develop/.codex-plugin/plugin.json`.
 
-Use the built-in skill installer (inside a Codex session):
+Install the Codex plugin marketplace from GitHub:
 
+```bash
+codex plugin marketplace add zhu1090093659/spec_driven_develop --ref main
 ```
+
+Then enable `Spec-Driven Develop` from the Codex plugin UI. If your Codex client does not expose the plugin UI yet, add this to `~/.codex/config.toml`:
+
+```toml
+[plugins."spec-driven-develop@spec-driven-develop"]
+enabled = true
+```
+
+Alternative: install only the core skill with the built-in skill installer inside a Codex session:
+
+```text
 $skill-installer install https://github.com/zhu1090093659/spec_driven_develop/tree/main/plugins/spec-driven-develop/skills/spec-driven-develop
 ```
 

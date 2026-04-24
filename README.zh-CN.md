@@ -146,11 +146,24 @@ SKILL 的 prompt 以通用、平台中立的方式编写。在缺少某些能力
 
 ### Codex CLI
 
-本仓库现在已经包含 Codex 插件元数据：`.agents/plugins/marketplace.json` 和 `plugins/spec-driven-develop/.codex-plugin/plugin.json`。如果你的 Codex 客户端支持仓库级本地插件市场，可以直接从该仓库启用 `spec-driven-develop` 插件。
+本仓库已经包含 Codex 插件元数据：`.agents/plugins/marketplace.json` 和 `plugins/spec-driven-develop/.codex-plugin/plugin.json`。
 
-在 Codex 会话中使用内置的 Skill 安装器：
+从 GitHub 安装 Codex 插件市场：
 
+```bash
+codex plugin marketplace add zhu1090093659/spec_driven_develop --ref main
 ```
+
+然后在 Codex 插件 UI 里启用 `Spec-Driven Develop`。如果你的 Codex 客户端暂时没有展示插件 UI，可以手动把下面内容加入 `~/.codex/config.toml`：
+
+```toml
+[plugins."spec-driven-develop@spec-driven-develop"]
+enabled = true
+```
+
+备选方式：在 Codex 会话中使用内置的 Skill 安装器，只安装核心 Skill：
+
+```text
 $skill-installer install https://github.com/zhu1090093659/spec_driven_develop/tree/main/plugins/spec-driven-develop/skills/spec-driven-develop
 ```
 
